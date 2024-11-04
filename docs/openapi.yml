@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: Halal Verification API
+  description: API for verifying whether a product is Halal by scanning barcodes and adding products not found in the OpenFoodFacts database.
+  version: 1.0.0
+servers:
+  - url: https://api.halal-verification.com
+    description: Production server
+
+paths:
+  /product/scan:
+    get:
+      summary: Scan a product by EAN13 barcode and check Halal status
+      parameters:
+        - in: query
+          name: barcode
+          required: true
+          schema:
+            type: string
+            description: The EAN13 barcode of the product
+            example: "1234567890123"
+      responses:
+        '200':
+          description: Successful response with product and Halal status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productName:
+                    type: string
+                    description: The name of the product
+                  halalStatus:
+                    type: string
+                    description: Halal status of the product
+                    enum:
+                      - Halal
+                      - Haram
+                      - Unsure
+                  reasons:
+                    type: array
+                    description: List of reasons why the product is Halal or Haram
+                    items:
+                      type: string
+                  productDetails:
+                    type: object
+                    properties:
+                      manufacturer:
+                        type: string
+                        description: Manufacturer of the product
+                      originCountry:
+                        type: string
+                        description: Country of origin of the product
+                      productImageURLs:
+                        type: array
+                        description: List of image URLs of the product
+                        items:
+                          type: string
+                      ingredients:
+                        type: array
+                        description: List of ingredients in the product
+                        items:
+                          type: string
+        '404':
+          description: Product not found
+        '500':
+          description: Internal server error
+
+  /product/add:
+    post:
+      summary: Add a product to the database if not found
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                barcode:
+                  type: string
+                  description: The EAN13 barcode of the product
+                  example: "1234567890123"
+                productName:
+                  type: string
+                  description: The name of the product
+                manufacturer:
+                  type: string
+                  description: The manufacturer of the product
+                originCountry:
+                  type: string
+                  description: Country of origin of the product
+                frontImage:
+                  type: string
+                  format: binary
+                  description: Image of the front of the product
+                backImage:
+                  type: string
+                  format: binary
+                  description: Image of the back of the product
+      responses:
+        '201':
+          description: Product successfully added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                  productID:
+                    type: string
+                    description: ID of the newly added product
+        '400':
+          description: Bad request (invalid data)
+        '500':
+          description: Internal server error

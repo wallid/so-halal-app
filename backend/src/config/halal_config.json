@@ -1,0 +1,276 @@
+{
+  "haram_keywords": ["alcohol", "beer", "wine", "abv", "alcoholic"],
+  "haram_nutriments": ["alcohol"],
+  "haram_ingredients": [
+    {
+      "code": "HI001",
+      "ingredient": "gelatin",
+      "reason": "Derived from animal bones, often from non-halal sources such as pork."
+    },
+    {
+      "code": "HI002",
+      "ingredient": "lard",
+      "reason": "Fat from pigs, which is strictly forbidden in Islam."
+    },
+    {
+      "code": "HI003",
+      "ingredient": "carmine",
+      "reason": "A red dye made from crushed insects (cochineal), not permissible in Islam."
+    },
+    {
+      "code": "HI004",
+      "ingredient": "alcohol",
+      "reason": "Any form of ethanol or intoxicating substance is haram in Islam."
+    },
+    {
+      "code": "HI005",
+      "ingredient": "rennet",
+      "reason": "Enzymes from the stomachs of non-halal slaughtered animals are not permissible."
+    },
+    {
+      "code": "HI006",
+      "ingredient": "blood",
+      "reason": "Consumption of blood is explicitly forbidden in the Quran."
+    },
+    {
+      "code": "HI007",
+      "ingredient": "vanilla extract",
+      "reason": "Typically contains alcohol, which is haram."
+    },
+    {
+      "code": "HI008",
+      "ingredient": "cochineal",
+      "reason": "A colorant made from insects, considered impure and not halal."
+    },
+    {
+      "code": "HI009",
+      "ingredient": "lipase",
+      "reason": "An enzyme derived from non-halal animal sources."
+    },
+    {
+      "code": "HI010",
+      "ingredient": "pepsin",
+      "reason": "An enzyme from the stomach of non-halal animals, used in cheese making."
+    },
+    {
+      "code": "HI011",
+      "ingredient": "monoglycerides",
+      "reason": "Can be derived from animal fats, including pork fat, making it haram."
+    },
+    {
+      "code": "HI012",
+      "ingredient": "diglycerides",
+      "reason": "Similar to monoglycerides, they can be derived from non-halal animal sources."
+    },
+    {
+      "code": "HI013",
+      "ingredient": "natural flavors (from animal origin)",
+      "reason": "May contain animal-derived ingredients not sourced from halal animals."
+    },
+    {
+      "code": "HI014",
+      "ingredient": "bacon",
+      "reason": "Pork and pork derivatives are forbidden in Islam."
+    },
+    {
+      "code": "HI015",
+      "ingredient": "ham",
+      "reason": "Ham is derived from pigs, which are forbidden in Islam."
+    },
+    {
+      "code": "HI016",
+      "ingredient": "sodium stearoyl lactylate",
+      "reason": "Can be derived from animal sources, including pork."
+    },
+    {
+      "code": "HI017",
+      "ingredient": "enzymes (from animal origin)",
+      "reason": "If enzymes are derived from non-halal slaughtered animals, they are haram."
+    },
+    {
+      "code": "HI018",
+      "ingredient": "animal fat",
+      "reason": "Fats derived from non-halal animals, particularly pork, are not allowed."
+    }
+  ],
+  "haram_e_numbers": [
+    {
+      "code": "EN001",
+      "e_number": "e120",
+      "reason": "Cochineal extract (carmine) made from insects, which is haram."
+    },
+    {
+      "code": "EN002",
+      "e_number": "e441",
+      "reason": "Gelatin, often from non-halal sources, including pigs."
+    },
+    {
+      "code": "EN003",
+      "e_number": "e542",
+      "reason": "Edible bone phosphate, derived from animal bones, possibly non-halal."
+    },
+    {
+      "code": "EN004",
+      "e_number": "e904",
+      "reason": "Shellac, a resin secreted by insects, considered impure."
+    },
+    {
+      "code": "EN005",
+      "e_number": "e1510",
+      "reason": "Ethyl alcohol, which is an intoxicant and haram in Islam."
+    },
+    {
+      "code": "EN006",
+      "e_number": "e920",
+      "reason": "L-cysteine, can be derived from human hair or animal sources, including pigs."
+    },
+    {
+      "code": "EN007",
+      "e_number": "e921",
+      "reason": "Similar to e920, can be derived from animal sources or human hair."
+    },
+    {
+      "code": "EN008",
+      "e_number": "e966",
+      "reason": "Lactitol, a sugar alcohol that can involve haram processing methods."
+    },
+    {
+      "code": "EN009",
+      "e_number": "e1105",
+      "reason": "Lysozyme, often derived from egg whites, but can be from non-halal sources."
+    },
+    {
+      "code": "EN010",
+      "e_number": "e631",
+      "reason": "Disodium inosinate, often derived from meat sources, possibly non-halal."
+    },
+    {
+      "code": "EN011",
+      "e_number": "e635",
+      "reason": "Disodium guanylate, can be derived from non-halal animal sources."
+    },
+    {
+      "code": "EN012",
+      "e_number": "e160a",
+      "reason": "Beta-carotene, may be derived from animal sources."
+    }
+  ],
+  "animal_ingredients": [
+    {
+      "code": "AI001",
+      "ingredient": "gelatin",
+      "reason": "Animal-derived, often from pigs or non-halal sources."
+    },
+    {
+      "code": "AI002",
+      "ingredient": "rennet",
+      "reason": "Comes from the stomach of non-halal slaughtered animals."
+    },
+    {
+      "code": "AI003",
+      "ingredient": "lard",
+      "reason": "Pork fat, forbidden in Islam."
+    },
+    {
+      "code": "AI004",
+      "ingredient": "cochineal",
+      "reason": "Made from crushed insects, which are impure."
+    },
+    {
+      "code": "AI005",
+      "ingredient": "shellac",
+      "reason": "Derived from insect secretions, not permissible."
+    },
+    {
+      "code": "AI006",
+      "ingredient": "isinglass",
+      "reason": "Derived from fish bladders, possibly non-halal."
+    },
+    {
+      "code": "AI007",
+      "ingredient": "tallow",
+      "reason": "Animal fat, possibly from non-halal animals."
+    },
+    {
+      "code": "AI008",
+      "ingredient": "suet",
+      "reason": "Hard animal fat, often from non-halal sources."
+    }
+  ],
+  "cross_contamination_warnings": [
+    {
+      "code": "CC001",
+      "contamination": "pork",
+      "reason": "Product may come into contact with pork, which is haram."
+    },
+    {
+      "code": "CC002",
+      "contamination": "shellfish",
+      "reason": "Shellfish contamination, which can be haram depending on interpretation."
+    },
+    {
+      "code": "CC003",
+      "contamination": "alcohol",
+      "reason": "Cross-contamination with alcohol makes the product impure."
+    },
+    {
+      "code": "CC004",
+      "contamination": "blood",
+      "reason": "Contamination with blood makes the product haram."
+    }
+  ],
+  "processing_aids": [
+    {
+      "code": "PA001",
+      "aid": "isinglass",
+      "reason": "Derived from fish bladders, used in filtering but can be haram."
+    },
+    {
+      "code": "PA002",
+      "aid": "pepsin",
+      "reason": "An enzyme from non-halal animal sources used in processing."
+    },
+    {
+      "code": "PA003",
+      "aid": "lipase",
+      "reason": "An enzyme from animals, which may not be halal."
+    },
+    {
+      "code": "PA004",
+      "aid": "animal rennet",
+      "reason": "Derived from non-halal animals, used in cheese production."
+    },
+    {
+      "code": "PA005",
+      "aid": "cysteine",
+      "reason": "Often derived from human hair or animal sources, which may be haram."
+    }
+  ],
+  "unreliable_manufacturers": [
+    {
+      "code": "UM001",
+      "manufacturer": "BrandX",
+      "reason": "Inconsistent halal certification and unreliable sourcing."
+    },
+    {
+      "code": "UM002",
+      "manufacturer": "BrandY",
+      "reason": "Uses animal-based ingredients without clear halal certification."
+    },
+    {
+      "code": "UM003",
+      "manufacturer": "Unreliable Co.",
+      "reason": "Known for cross-contamination and improper labeling."
+    },
+    {
+      "code": "UM004",
+      "manufacturer": "Questionable Foods Inc.",
+      "reason": "Unclear sourcing and lack of transparency in ingredients."
+    },
+    {
+      "code": "UM005",
+      "manufacturer": "Doubtful Snacks Ltd.",
+      "reason": "Often uses animal-derived flavorings without halal verification."
+    }
+  ]
+}

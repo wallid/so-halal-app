@@ -1,0 +1,125 @@
+Feature: E-Number Based Halal Verification # features/enumber_based_strategy.feature:3
+  As a user
+  I want to verify if a product is halal based on its E-numbers
+  So that I can avoid products with haram E-numbers
+  Scenario: Product contains haram E-numbers                               # features/enumber_based_strategy.feature:8
+    Given a product with additives "E120"                                  # features/steps/steps.py:28
+    When I check if the product is halal using the E-number based strategy # features/steps/steps.py:57
+    Then the result should be "Not Halal"                                  # features/steps/steps.py:77
+    And haram E-numbers found should be "E120"                             # features/steps/steps.py:117
+
+  Scenario: Product does not contain haram E-numbers                       # features/enumber_based_strategy.feature:14
+    Given a product with additives "E100, E101"                            # features/steps/steps.py:28
+    When I check if the product is halal using the E-number based strategy # features/steps/steps.py:57
+    Then the result should be "Halal"                                      # features/steps/steps.py:77
+    And no haram E-numbers should be found                                 # features/steps/steps.py:124
+
+Feature: Ingredient-Based Halal Verification # features/ingredient_based_strategy.feature:3
+  As a user
+  I want to verify if a product is halal based on its ingredients
+  So that I can avoid products with haram ingredients
+  Scenario: Product contains haram ingredients                               # features/ingredient_based_strategy.feature:8
+    Given a product with ingredients "bacon, water, salt"                    # features/steps/steps.py:22
+    When I check if the product is halal using the ingredient-based strategy # features/steps/steps.py:52
+    Then the result should be "Not Halal"                                    # features/steps/steps.py:77
+    And haram ingredients found should be "bacon"                            # features/steps/steps.py:89
+
+  Scenario: Product contains new haram ingredients                           # features/ingredient_based_strategy.feature:14
+    Given a product with ingredients "gelatin, sugar, water"                 # features/steps/steps.py:22
+    When I check if the product is halal using the ingredient-based strategy # features/steps/steps.py:52
+    Then the result should be "Not Halal"                                    # features/steps/steps.py:77
+    And haram ingredients found should be "gelatin"                          # features/steps/steps.py:89
+
+  Scenario: Product does not contain haram ingredients                       # features/ingredient_based_strategy.feature:20
+    Given a product with ingredients "water, sugar, salt"                    # features/steps/steps.py:22
+    When I check if the product is halal using the ingredient-based strategy # features/steps/steps.py:52
+    Then the result should be "Halal"                                        # features/steps/steps.py:77
+    And no haram ingredients should be found                                 # features/steps/steps.py:129
+
+Feature: Keyword-Based Halal Verification # features/keyword_based_strategy.feature:3
+  As a user
+  I want to verify if a product is halal based on its keywords
+  So that I can avoid products with haram-related keywords
+  Scenario: Product contains haram keywords                               # features/keyword_based_strategy.feature:8
+    Given a product with keywords "wine, beverage"                        # features/steps/steps.py:34
+    When I check if the product is halal using the keyword-based strategy # features/steps/steps.py:62
+    Then the result should be "Not Halal"                                 # features/steps/steps.py:77
+    And haram keywords found should be "wine"                             # features/steps/steps.py:137
+
+  Scenario: Product contains new haram keywords                           # features/keyword_based_strategy.feature:14
+    Given a product with keywords "alcoholic, drink"                      # features/steps/steps.py:34
+    When I check if the product is halal using the keyword-based strategy # features/steps/steps.py:62
+    Then the result should be "Not Halal"                                 # features/steps/steps.py:77
+    And haram keywords found should be "alcoholic"                        # features/steps/steps.py:137
+
+  Scenario: Product does not contain haram keywords                       # features/keyword_based_strategy.feature:20
+    Given a product with keywords "juice, beverage"                       # features/steps/steps.py:34
+    When I check if the product is halal using the keyword-based strategy # features/steps/steps.py:62
+    Then the result should be "Halal"                                     # features/steps/steps.py:77
+    And no haram keywords should be found                                 # features/steps/steps.py:133
+
+Feature: Nutrition-Based Halal Verification # features/nutrition_based_strategy.feature:3
+  As a user
+  I want to verify if a product is halal based on its nutriments
+  So that I can avoid products with haram nutriments
+  Scenario: Product contains haram nutriments                               # features/nutrition_based_strategy.feature:8
+    Given a product with nutriments "alcohol: 5"                            # features/steps/steps.py:40
+    When I check if the product is halal using the nutrition-based strategy # features/steps/steps.py:67
+    Then the result should be "Not Halal"                                   # features/steps/steps.py:77
+    And haram nutriments found should be "alcohol"                          # features/steps/steps.py:152
+
+  Scenario: Product does not contain haram nutriments                       # features/nutrition_based_strategy.feature:14
+    Given a product with nutriments "sugar: 10"                             # features/steps/steps.py:40
+    When I check if the product is halal using the nutrition-based strategy # features/steps/steps.py:67
+    Then the result should be "Halal"                                       # features/steps/steps.py:77
+    And no haram nutriments should be found                                 # features/steps/steps.py:146
+
+Feature: Overall Halal Verification # features/verify_halal.feature:3
+  As a user
+  I want to verify if a product is halal using all strategies
+  So that I can get an overall halal status
+  Scenario: Product is not halal due to haram ingredients  # features/verify_halal.feature:11
+    Given a product with ingredients "gelatin"             # features/steps/steps.py:22
+    And a product with additives "E100"                    # features/steps/steps.py:28
+    And a product with keywords "snack"                    # features/steps/steps.py:34
+    And a product with nutriments "sugar:10"               # features/steps/steps.py:40
+    When I verify if the product is halal                  # features/steps/steps.py:72
+    Then the overall status should be "Not Halal"          # features/steps/steps.py:98
+    And haram items found should be "gelatin"              # features/steps/steps.py:110
+
+  Scenario: Product is not halal due to haram E-numbers  # features/verify_halal.feature:20
+    Given a product with ingredients "sugar"             # features/steps/steps.py:22
+    And a product with additives "E441"                  # features/steps/steps.py:28
+    And a product with keywords "candy"                  # features/steps/steps.py:34
+    And a product with nutriments "sugar:10"             # features/steps/steps.py:40
+    When I verify if the product is halal                # features/steps/steps.py:72
+    Then the overall status should be "Not Halal"        # features/steps/steps.py:98
+    And haram items found should be "E441"               # features/steps/steps.py:110
+
+  Scenario: Product is not halal due to haram keywords  # features/verify_halal.feature:29
+    Given a product with ingredients "water"            # features/steps/steps.py:22
+    And a product with additives "E100"                 # features/steps/steps.py:28
+    And a product with keywords "alcoholic"             # features/steps/steps.py:34
+    And a product with nutriments "sugar:5"             # features/steps/steps.py:40
+    When I verify if the product is halal               # features/steps/steps.py:72
+    Then the overall status should be "Not Halal"       # features/steps/steps.py:98
+    And haram items found should be "alcoholic"         # features/steps/steps.py:110
+
+  Scenario: Product is not halal due to haram nutriments  # features/verify_halal.feature:38
+    Given a product with ingredients "water"              # features/steps/steps.py:22
+    And a product with additives "E100"                   # features/steps/steps.py:28
+    And a product with keywords "drink"                   # features/steps/steps.py:34
+    And a product with nutriments "alcohol:5"             # features/steps/steps.py:40
+    When I verify if the product is halal                 # features/steps/steps.py:72
+    Then the overall status should be "Not Halal"         # features/steps/steps.py:98
+    And haram items found should be "alcohol"             # features/steps/steps.py:110
+
+  Scenario: Product is halal                  # features/verify_halal.feature:47
+    Given a product with ingredients "water"  # features/steps/steps.py:22
+    And a product with additives "E100"       # features/steps/steps.py:28
+    And a product with keywords "drink"       # features/steps/steps.py:34
+    And a product with nutriments "sugar:5"   # features/steps/steps.py:40
+    When I verify if the product is halal     # features/steps/steps.py:72
+    Then the overall status should be "Halal" # features/steps/steps.py:98
+    And no haram items should be found        # features/steps/steps.py:161
+

@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+redis
+psycopg2-binary
+python-dotenv
+openfoodfacts
+python-multipart
+pydantic
+azure-cosmos
+azure-identity
+behave
+transformers
+torch
+requests
