@@ -123,31 +123,58 @@ def scan_barcode(request: BarcodeScanRequest, cursor=Depends(get_postgres_cursor
 
     raise HTTPException(status_code=404, detail="Product not found")
 
+
+
 @router.put("/product", response_model=dict)
 async def create_update_product(
     barcode: str,
     product_front_image: UploadFile = File(...),
     product_ingredients_image: UploadFile = File(...),
 ):
+    try:
+        logger.info(f"Starting the creation/update process for product with barcode: {barcode}")
+        
+        # Create the product
+        data = {'code': barcode}
+        logger.info("Sending product creation request.")
+        response = api.product.update(data)
+        
+        if response.status_code != 200:
+            logger.error(f"Error creating product. Status code: {response.status_code}")
+            raise HTTPException(status_code=400, detail="Error creating product")
+        
+        # Upload the product front image
+        logger.info("Uploading product front image.")
+        response = upload_product_image(barcode, product_front_image, image_field=IMAGE_FIELDS.FRONT_EN)
+        
+        # Upload the product ingredients image
+        logger.info("Uploading product ingredients image.")
+        response = upload_product_image(barcode, product_ingredients_image, image_field=IMAGE_FIELDS.INGREDIENTS_EN)
+        
+        # Perform OCR on the ingredients image
+        logger.info("Performing OCR on product ingredients image.")
+        response = get_product_ingredients_ocr(barcode, 1, image_field=IMAGE_FIELDS.INGREDIENTS_EN, ocr_engine=OCR_ENGINES.GOOGLE_CLOUD_VISION)
+        
+        # Update the product with ingredients text
+        logger.info("Updating product with OCR results.")
+        data = {
+            'code': barcode,
+            'ingredients_text': response['ingredients_text_from_image'],
+        }
+        response = api.product.update(data)
+        
+        if response.status_code != 200:
+            logger.error(f"Error updating product with ingredients text. Status code: {response.status_code}")
+            raise HTTPException(status_code=400, detail="Error creating product")
+        
+        logger.info(f"Product creation/update process completed for barcode: {barcode}")
+        
+        return {"detail": "Product updated successfully"}
+    except Exception as e:
+        logger.exception(f"An error occurred during the product creation/update process for barcode: {barcode}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-    # Create the product 
-    data = {'code': barcode}
-    response = api.product.update(data)
-    if response.status_code != 200:
-        raise HTTPException(status_code=400, detail="Error creating product")
-    
-    # Upload the product image
-    response = upload_product_image(barcode, product_front_image, image_field=IMAGE_FIELDS.FRONT_EN)
-
-    response = upload_product_image(barcode, product_ingredients_image, image_field=IMAGE_FIELDS.INGREDIENTS_EN)
-
-    response = get_product_ingredients_ocr(barcode, 1, image_field=IMAGE_FIELDS.INGREDIENTS_EN, ocr_engine=OCR_ENGINES.GOOGLE_CLOUD_VISION)
-    print(response)
-    
-    return None
-
-
-# create image fields
+# Image field constants
 class IMAGE_FIELDS:
     FRONT_EN = "front_en"
     INGREDIENTS_EN = "ingredients_en"
@@ -160,14 +187,8 @@ class OCR_ENGINES:
     TESSERACT = "tesseract"
 
 def get_product_ingredients_ocr(barcode: str, image_id: int, image_field: str = IMAGE_FIELDS.INGREDIENTS_EN, ocr_engine: str = OCR_ENGINES.GOOGLE_CLOUD_VISION):
-    """
-    Function to perform OCR on a product image using OpenFoodFacts OCR endpoint.
-    """
-    # Set up the endpoint and data
+    logger.info(f"Performing OCR for barcode: {barcode}, image field: {image_field}")
     url = "https://world.openfoodfacts.org/cgi/ingredients.pl"
-
-
-    # Prepare the query parameters
     params = {
         "id": image_field,
         "code": barcode,
@@ -175,21 +196,17 @@ def get_product_ingredients_ocr(barcode: str, image_id: int, image_field: str = 
         "ocr_engine": ocr_engine,
     }
 
-    # Make the GET request to perform OCR
     response = requests.get(url, params=params)
-
-    # Check for response status
     if response.status_code != 200 or response.json().get('status') == 1:
+        logger.error(f"Error performing OCR. Status code: {response.status_code}, Response: {response.text}")
         raise HTTPException(status_code=400, detail="Error performing OCR on image")
-
+    
+    logger.info("OCR process completed successfully.")
     return response.json()
 
-
 def upload_product_image(barcode: str, file: UploadFile, image_field: str = IMAGE_FIELDS.FRONT_EN):
-    # Set up the endpoint and data
+    logger.info(f"Uploading image for barcode: {barcode}, image field: {image_field}")
     url = "https://world.openfoodfacts.org/cgi/product_image_upload.pl"
-
-    # Read the content of the file
     file_content = file.file.read()
     files = {
         f"imgupload_{image_field}": (file.filename, file_content, file.content_type),
@@ -199,11 +216,10 @@ def upload_product_image(barcode: str, file: UploadFile, image_field: str = IMAG
         "imagefield": image_field,
     }
 
-    # Make the POST request to upload the image
     response = requests.post(url, data=data, files=files)
-
-    # Check for response status
     if response.status_code != 200:
+        logger.error(f"Error uploading image. Status code: {response.status_code}, Response: {response.text}")
         raise HTTPException(status_code=400, detail="Error uploading image")
-
+    
+    logger.info("Image uploaded successfully.")
     return response.json()
